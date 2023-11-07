@@ -1,0 +1,39 @@
+version: '3.11'
+
+services:
+  db:
+    container_name: product-app-db
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: product_db
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  server:
+    container_name: chat_server
+    build: .
+    environment:
+      DEBUG: '1'
+    volumes:
+      - ./app:/code/app
+    depends_on:
+      - db
+    ports:
+      - "8008:8000"
+    restart: on-failure
+    command: uvicorn app.main:app --host 0.0.0.0 --reload
+
+  pgadmin:
+    container_name: pgadmin-container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    depends_on:
+      - db
+    ports:
+      - "5050:80"
+    restart: always
