@@ -1,0 +1,17 @@
+from sqlalchemy import Column, Integer, String, Boolean, DateTime
+from sqlalchemy.sql import func
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class User(Base):
+    __tablename__ = 'users'
+
+    user_id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True) 
+    password = Column(String)
+    name = Column(String)
+    surname = Column(String)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())  
+    last_login = Column(DateTime(timezone=True))  
+    is_admin = Column(Boolean, default=False)

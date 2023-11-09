@@ -5,6 +5,8 @@ services:
     container_name: product-app-db
     image: postgres:latest
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_DB: product_db
       POSTGRES_USER: root
@@ -16,6 +18,7 @@ services:
     container_name: chat_server
     build: .
     environment:
+      DATABASE_URL: "postgresql+pg8000://root:root@db:5432/product_db"
       DEBUG: '1'
     volumes:
       - ./app:/code/app
