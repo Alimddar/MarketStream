@@ -1,5 +1,6 @@
 from sqlalchemy import Column, Integer, String, Float, DateTime, Boolean
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 from .base import Base
 
 class Product(Base):
@@ -14,3 +15,5 @@ class Product(Base):
     stock_quantity = Column(Integer)
     created_at = Column(DateTime(timezone=True), server_default=func.now())  
     updated_at = Column(DateTime(timezone=True), onupdate=func.now()) 
+
+    order_items = relationship("OrderItem", back_populates="product")
