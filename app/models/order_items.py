@@ -12,4 +12,3 @@ class OrderItem(Base):
     created_at = Column(DateTime)  
 
     product = relationship("Product", back_populates="order_items")
-
