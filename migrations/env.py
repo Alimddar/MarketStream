@@ -4,27 +4,30 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from app.models.user import Base  # Make sure this import reflects where your Base is defined
+from app.models.user import Base 
 
-# Alembic Config object, which provides access to the .ini file values.
+from app.models.admin_panel_logs import AdminPanelLogs
+from app.models.chat import Chat
+from app.models.companies import Company
+from app.models.order_items import OrderItem
+from app.models.order import Order
+from app.models.product import Product
+from app.models.screen_share import ScreenShare
+from app.models.user import User
+from app.models.video_call import VideoCall
+
 config = context.config
 
-# Interpret the config file for Python logging.
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-# Set the target metadata for autogenerate support
-target_metadata = Base.metadata  # This should be Base.metadata, not just Base
-
-# Additional values from the config can be accessed:
-# some_configured_value = config.get_main_option("some.option")
+target_metadata = Base.metadata
 
 def run_migrations_offline() -> None:
-    """Run migrations in 'offline' mode."""
     url = config.get_main_option("sqlalchemy.url")
     context.configure(
         url=url,
-        target_metadata=target_metadata,
+        target_metadata=Base.metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
     )
@@ -33,7 +36,6 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 def run_migrations_online() -> None:
-    """Run migrations in 'online' mode."""
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
         prefix="sqlalchemy.",
@@ -42,9 +44,8 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, 
+            connection=connection,
             target_metadata=target_metadata,
-            # Include other options here as needed
         )
 
         with context.begin_transaction():

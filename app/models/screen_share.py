@@ -1,14 +1,12 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from .base import Base
 from sqlalchemy.orm import relationship
 
-Base = declarative_base()
-
 class ScreenShare(Base):
-    __tablename__ = 'screen_shares' 
+    __tablename__ = 'screen_shares'
 
     share_id = Column(Integer, primary_key=True, index=True)
-    session_id = Column(Integer, ForeignKey('video_call.call_id'), index=True)  
+    session_id = Column(Integer, ForeignKey('video_calls.call_id'), index=True)
     user_id = Column(Integer, ForeignKey('users.user_id'))  
     start_time = Column(DateTime)  
     end_time = Column(DateTime)

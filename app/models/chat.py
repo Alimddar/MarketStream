@@ -1,9 +1,8 @@
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
+from .base import Base
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-Base = declarative_base()
 
 class Chat(Base):
     __tablename__ = 'chats'
